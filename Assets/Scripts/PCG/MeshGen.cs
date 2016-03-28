@@ -2,10 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class MeshGen: MonoBehaviour {
+public class MeshGen : MonoBehaviour {
 
 	public SquareGrid squareGrid;
 	public MeshFilter walls;
+	public MeshFilter level;
 
 	List<Vector3> vertices;
 	List<int> triangles;
@@ -32,7 +33,8 @@ public class MeshGen: MonoBehaviour {
 		}
 
 		Mesh mesh = new Mesh();
-		GetComponent<MeshFilter>().mesh = mesh;
+		//GetComponent<MeshFilter>().mesh = mesh;
+		level.mesh = mesh;
 
 		mesh.vertices = vertices.ToArray();
 		mesh.triangles = triangles.ToArray();
@@ -48,7 +50,7 @@ public class MeshGen: MonoBehaviour {
 		List<Vector3> wallVertices = new List<Vector3> ();
 		List<int> wallTriangles = new List<int> ();
 		Mesh wallMesh = new Mesh ();
-		float wallHeight = 5;
+		float wallHeight = 7;//5
 
 		foreach (List<int> outline in outlines) {
 			for (int i = 0; i < outline.Count -1; i ++) {
@@ -70,6 +72,16 @@ public class MeshGen: MonoBehaviour {
 		wallMesh.vertices = wallVertices.ToArray ();
 		wallMesh.triangles = wallTriangles.ToArray ();
 		walls.mesh = wallMesh;
+		//Problem here with map regeneration, creates a new wall mesh each time with collision physics. Delete oldest wall mesh
+		MeshCollider wallCollider = walls.gameObject.AddComponent<MeshCollider> ();
+		wallCollider.sharedMesh = wallMesh;
+	}
+
+	public void removeWallMesh()
+	{
+		MeshCollider wallCollider = walls.gameObject.GetComponent<MeshCollider> ();
+		Destroy (wallCollider);
+		//Debug.Log ("Wall Mesh removed");
 	}
 
 	void TriangulateSquare(Square square) {
@@ -134,7 +146,6 @@ public class MeshGen: MonoBehaviour {
 			checkedVertices.Add(square.bottomLeft.vertexIndex);
 			break;
 		}
-
 	}
 
 	void MeshFromPoints(params Node[] points) {
@@ -272,41 +283,40 @@ public class MeshGen: MonoBehaviour {
 		}
 	}
 
-	public class SquareGrid {
-		public Square[,] squares;
+	public class SquareGrid { 
+		public Square[,] squares; //holds 2D arrays of squares
 
-		public SquareGrid(int[,] map, float squareSize) {
+		public SquareGrid(int[,] map, float squareSize) { //constructor, gets map from mapGen
 			int nodeCountX = map.GetLength(0);
 			int nodeCountY = map.GetLength(1);
 			float mapWidth = nodeCountX * squareSize;
 			float mapHeight = nodeCountY * squareSize;
 
-			ControlNode[,] controlNodes = new ControlNode[nodeCountX,nodeCountY];
+			ControlNode[,] controlNodes = new ControlNode[nodeCountX,nodeCountY]; //2D array of control nodes
 
 			for (int x = 0; x < nodeCountX; x ++) {
 				for (int y = 0; y < nodeCountY; y ++) {
-					Vector3 pos = new Vector3(-mapWidth/2 + x * squareSize + squareSize/2, 0, -mapHeight/2 + y * squareSize + squareSize/2);
-					controlNodes[x,y] = new ControlNode(pos,map[x,y] == 1, squareSize);
+					Vector3 pos = new Vector3(-mapWidth/2 + x * squareSize + squareSize/2, 0, -mapHeight/2 + y * squareSize + squareSize/2); //Calculate positions of control node
+					controlNodes[x,y] = new ControlNode(pos,map[x,y] == 1, squareSize); // map is active if = 1 , // grid of control nodes
 				}
 			}
 
-			squares = new Square[nodeCountX -1,nodeCountY -1];
+			squares = new Square[nodeCountX -1,nodeCountY -1]; //creation of grid of squares from control nodes
 			for (int x = 0; x < nodeCountX-1; x ++) {
 				for (int y = 0; y < nodeCountY-1; y ++) {
-					squares[x,y] = new Square(controlNodes[x,y+1], controlNodes[x+1,y+1], controlNodes[x+1,y], controlNodes[x,y]);
+					squares[x,y] = new Square(controlNodes[x,y+1] /*topleft*/ , controlNodes[x+1,y+1] /*topright*/ , controlNodes[x+1,y] /*bottomright*/ , controlNodes[x,y] /*bottomleft*/ ); //each square equal to new square with control node attributes from array
 				}
 			}
-
 		}
 	}
 
-	public class Square {
+	public class Square { //references all 4 control nodes of a square
 
 		public ControlNode topLeft, topRight, bottomRight, bottomLeft;
 		public Node centreTop, centreRight, centreBottom, centreLeft;
 		public int configuration;
 
-		public Square (ControlNode _topLeft, ControlNode _topRight, ControlNode _bottomRight, ControlNode _bottomLeft) {
+		public Square (ControlNode _topLeft, ControlNode _topRight, ControlNode _bottomRight, ControlNode _bottomLeft) { // constructor
 			topLeft = _topLeft;
 			topRight = _topRight;
 			bottomRight = _bottomRight;
@@ -326,10 +336,9 @@ public class MeshGen: MonoBehaviour {
 			if (bottomLeft.active)
 				configuration += 1;
 		}
-
 	}
 
-	public class Node {
+	public class Node { //node for a square
 		public Vector3 position;
 		public int vertexIndex = -1;
 
@@ -338,16 +347,15 @@ public class MeshGen: MonoBehaviour {
 		}
 	}
 
-	public class ControlNode : Node {
+	public class ControlNode : Node { //inherit from Node class
 
-		public bool active;
-		public Node above, right;
+		public bool active; //wall or not wall
+		public Node above, right; 
 
-		public ControlNode(Vector3 _pos, bool _active, float squareSize) : base(_pos) {
+		public ControlNode (Vector3 _pos, bool _active, float squareSize) : base(_pos) { //constructor
 			active = _active;
 			above = new Node(position + Vector3.forward * squareSize/2f);
 			right = new Node(position + Vector3.right * squareSize/2f);
 		}
-
 	}
 }

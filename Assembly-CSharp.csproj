@@ -45,12 +45,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\CursorLock.cs" />
-     <Compile Include="Assets\Scripts\GunScript.cs" />
+     <Compile Include="Assets\Scripts\DataWrite\dataScript.cs" />
+     <Compile Include="Assets\Scripts\FPS\BulletScript.cs" />
+     <Compile Include="Assets\Scripts\FPS\CursorLock.cs" />
+     <Compile Include="Assets\Scripts\FPS\GuardScript.cs" />
+     <Compile Include="Assets\Scripts\FPS\GunScript.cs" />
+     <Compile Include="Assets\Scripts\FPS\PlayerScript.cs" />
+     <Compile Include="Assets\Scripts\FPS\SentryScript.cs" />
+     <Compile Include="Assets\Scripts\FPS\targetScript.cs" />
      <Compile Include="Assets\Scripts\PCG\MapGen.cs" />
      <Compile Include="Assets\Scripts\PCG\MeshGen.cs" />
-     <Compile Include="Assets\Scripts\PlayerScript.cs" />
-     <Compile Include="Assets\Scripts\SentryScript.cs" />
+     <Compile Include="Assets\Scripts\PCG\SpawnScript.cs" />
+     <Compile Include="Assets\Scripts\PCG\startScript.cs" />
      <None Include="Assets\Standard Assets\Effects\GlassRefraction\Shaders\GlassStainedBumpDistort.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BlendOneOne.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\NoiseEffectShaderRGB.shader" />

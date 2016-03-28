@@ -9,6 +9,12 @@ public class PlayerScript : MonoBehaviour {
 	public float crosshairScale = 1;
 	public bool isZoomed = false;
 
+
+	public int startingHealth = 100;
+	public int currentHealth;
+	public Slider healthSlider;
+	bool damaged;
+	bool isDead;
 	//public int bulletsInClip;
 
 	 //public Text text;
@@ -17,17 +23,12 @@ public class PlayerScript : MonoBehaviour {
 	{
 		Cursor.visible = false;
 		Cursor.lockState = CursorLockMode.Locked;
-	
-
 	}
-
-	void Awake ()
-	{
 		
-		//text = GetComponent <Text> ();	
-		//bulletsInClip = GunScript.bulletsPerClip;
+	void Awake()
+	{
+		currentHealth = startingHealth;	
 	}
-
 	void Update()
 	{
 		checkIfZoomed ();
@@ -42,7 +43,7 @@ public class PlayerScript : MonoBehaviour {
 			}
 		} 
 
-		//text.text = "" + bulletsInClip;
+		damaged = false;
 
 
 	}
@@ -66,5 +67,24 @@ public class PlayerScript : MonoBehaviour {
 		{
 			GetComponent<Camera> ().fieldOfView = 60;
 		}
+	}
+
+	public void TakeDamage (int amount)
+	{
+		damaged = true;
+
+		currentHealth -= amount;
+
+		healthSlider.value = currentHealth;
+
+		if(currentHealth <= 0 && !isDead)
+		{
+			Death();
+		}
+	}
+
+	void Death()
+	{
+		isDead = true;
 	}
 }

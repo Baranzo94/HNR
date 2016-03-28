@@ -1,14 +1,16 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/PCG/MeshGen.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/FPS/SentryScript.cs">
     <Files>
-      <File FileName="Assets/Scripts/TurretScript.js" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/PlayerScript.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/GunScript.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/SentryScript.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/CursorLock.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/PCG/MeshGen.cs" Line="9" Column="2" />
+      <File FileName="Assets/Scripts/PCG/MeshGen.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/PCG/MapGen.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/DataWrite/dataScript.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/FPS/SentryScript.cs" Line="7" Column="4" />
+      <File FileName="Assets/Scripts/FPS/targetScript.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/FPS/GunScript.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/PCG/SpawnScript.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/PCG/startScript.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/FPS/BulletScript.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
