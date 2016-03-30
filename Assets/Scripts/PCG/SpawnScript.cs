@@ -15,4 +15,9 @@ public class SpawnScript : MonoBehaviour {
 	void Update () {
 	
 	}
+
+	[System.Serializable]
+	public class Round {
+		public int targetCount;
+	}
 }

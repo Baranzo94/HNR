@@ -15,6 +15,8 @@ public class PlayerScript : MonoBehaviour {
 	public Slider healthSlider;
 	bool damaged;
 	bool isDead;
+
+
 	//public int bulletsInClip;
 
 	 //public Text text;

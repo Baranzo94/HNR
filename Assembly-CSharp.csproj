@@ -56,7 +56,10 @@
      <Compile Include="Assets\Scripts\PCG\MapGen.cs" />
      <Compile Include="Assets\Scripts\PCG\MeshGen.cs" />
      <Compile Include="Assets\Scripts\PCG\SpawnScript.cs" />
+     <Compile Include="Assets\Scripts\PCG\Utility.cs" />
      <Compile Include="Assets\Scripts\PCG\startScript.cs" />
+     <Compile Include="Assets\Scripts\PCG\tileMap.cs" />
+     <Compile Include="Assets\Scripts\PCG\tileScript.cs" />
      <None Include="Assets\Standard Assets\Effects\GlassRefraction\Shaders\GlassStainedBumpDistort.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BlendOneOne.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\NoiseEffectShaderRGB.shader" />
