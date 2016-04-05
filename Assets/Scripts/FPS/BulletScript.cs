@@ -4,9 +4,9 @@ using System.Collections;
 public class BulletScript : MonoBehaviour {
 
 	float mySpeed = 30;
-	float myRange = 20;
+	float myRange = 30;
 
-	public int damage = 10;
+	//public int damage = 10;
 	private float myDist;
 	PlayerScript playerHealth;
 	GameObject player;
@@ -26,7 +26,7 @@ public class BulletScript : MonoBehaviour {
 			Destroy (gameObject);
 	}
 
-	void OnTriggerEnter(Collider other)
+	/*void OnTriggerEnter(Collider other)
 	{
 		if (other.gameObject.tag == "Player") 
 		{
@@ -37,5 +37,5 @@ public class BulletScript : MonoBehaviour {
 
 			}
 		}
-	}
+	}*/
 }

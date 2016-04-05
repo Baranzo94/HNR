@@ -21,6 +21,7 @@ public class GunScript : MonoBehaviour {
 	//private float nextFireTime = 0.0f;
 	//private int m_LastFrameShot = -1;
 
+	public int shotsFired;
 	//public GameObject spawn;
 	public Transform spawn;
 
@@ -45,6 +46,7 @@ public class GunScript : MonoBehaviour {
 				Ray ray = Camera.main.ScreenPointToRay
 				(Input.mousePosition);
 				bulletsPerClip = bulletsPerClip - 1;
+				shotsFired = shotsFired + 1;
 				//Debug.Log ("Bang");
 
 				RaycastHit hit = new RaycastHit ();

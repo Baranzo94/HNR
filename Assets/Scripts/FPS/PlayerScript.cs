@@ -10,11 +10,11 @@ public class PlayerScript : MonoBehaviour {
 	public bool isZoomed = false;
 
 
-	public int startingHealth = 100;
-	public int currentHealth;
-	public Slider healthSlider;
-	bool damaged;
-	bool isDead;
+	//public int startingHealth = 100;
+	//public int currentHealth;
+	//public Slider healthSlider;
+	//bool damaged;
+	//bool isDead;
 
 
 	//public int bulletsInClip;
@@ -29,7 +29,7 @@ public class PlayerScript : MonoBehaviour {
 		
 	void Awake()
 	{
-		currentHealth = startingHealth;	
+		//currentHealth = startingHealth;	
 	}
 	void Update()
 	{
@@ -45,7 +45,7 @@ public class PlayerScript : MonoBehaviour {
 			}
 		} 
 
-		damaged = false;
+		//damaged = false;
 
 
 	}
@@ -67,26 +67,26 @@ public class PlayerScript : MonoBehaviour {
 		
 		} else 
 		{
-			GetComponent<Camera> ().fieldOfView = 60;
+			GetComponent<Camera> ().fieldOfView = 80;
 		}
 	}
 
 	public void TakeDamage (int amount)
 	{
-		damaged = true;
+		//damaged = true;
 
-		currentHealth -= amount;
+		//currentHealth -= amount;
 
-		healthSlider.value = currentHealth;
+		//healthSlider.value = currentHealth;
 
-		if(currentHealth <= 0 && !isDead)
-		{
-			Death();
-		}
+		//if(currentHealth <= 0 && !isDead)
+		//{
+		//	Death();
+		//}
 	}
 
 	void Death()
 	{
-		isDead = true;
+	//	isDead = true;
 	}
 }

@@ -11,6 +11,8 @@ public class tileMap : MonoBehaviour {
 	[Range(0,1)]
 	public float outlinePercent;
 
+	public float tileSize;
+
 	List<Coord>allTileCoords;
 	Queue<Coord> shuffledTileCoords;
 
@@ -55,7 +57,7 @@ public class tileMap : MonoBehaviour {
 
 				Transform newTile = Instantiate (tilePrefab, tilePosition, Quaternion.Euler (Vector3.right * 90)) as Transform;
 
-				newTile.localScale = Vector3.one * (1 - outlinePercent);
+				newTile.localScale = Vector3.one * (1 - outlinePercent) * tileSize;
 
 				newTile.parent = mapHolder;
 
@@ -83,7 +85,7 @@ public class tileMap : MonoBehaviour {
 	}
 
 	Vector3 CoordToPosition(int x, int y) {
-		return new Vector3 (-mapSize.x / 2 + 0.5f + x, 0, -mapSize.y / 2 + 0.5f + y);
+		return new Vector3 (-mapSize.x / 2 + 0.5f + x, 0, -mapSize.y / 2 + 0.5f + y) * tileSize;
 
 	}
 
