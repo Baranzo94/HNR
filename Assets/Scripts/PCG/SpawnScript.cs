@@ -16,8 +16,26 @@ public class SpawnScript : MonoBehaviour {
 	
 	}
 
-	[System.Serializable]
+	/*[System.Serializable]
 	public class Round {
 		public int targetCount;
+	}*/
+
+	/*void OnCollisionEnter(Collision collision)
+	{
+		
+		if (collision.gameObject.tag == "Wall") 
+		{
+			Debug.Log ("Check");
+		}
+	}*/
+
+	void OnTriggerEnter(Collider other)
+	{
+		if (other.gameObject.tag == "Walls") 
+		{
+			Debug.Log ("Check");
+			//Test successful, make it respawn until it doesnt have a issue
+		}
 	}
 }

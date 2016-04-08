@@ -10,7 +10,9 @@ public class MapGen : MonoBehaviour {
 	public int height; //height of the generated map
 
 	public GameObject playerSpawn;// Player Spawn location, may be better with transform for location
+	public GameObject player;
 	public GameObject endPoint; // End Point location as oppose to player spawn location for level ending and generation of new one
+
 	public float levelFinished; //Counter for number of levels finished
 	public bool levelComplete; // Once completed a new level will be generated
 	public bool gameOver; // Will be called true when suffcient amount of levels have been completed and test is over, data will be exported to be written to file 
@@ -23,71 +25,199 @@ public class MapGen : MonoBehaviour {
 
 	int[,] map; //2D array of ints
 
-	public MeshGen meshGenerator;
+	public MeshGen meshGenerator; //Mesh Generator class
 
 	//public Vector3 spawnValues;
 	public Vector2 mapSize;
 
+	Coord mapEdge; //Coordinates for the map edge
+	Coord mapEdgeExit; // Duplicate coordinates
 	Coord mapCentre;
 
-	Transform[,] tileMap;
+	Transform[,] tileMap; //2D array for traking the tile map
 
+	public static bool explorer; //explorer Taxonomy
+	public static bool killer; //Killer Taxonomy
+	public static bool acheiver; //Acheiver Taxonomy
+	public bool isExplorer; //For calculating explorer type
+	public bool isKiller; //For calculating killer type
+	public bool isAcheiver; //For calculating acheiver type
 
-	public Transform targetPrefab;
+	public Transform targetPrefab; //transform type for targets
+	public Transform playerSpawnPoint;
 
-	List<Coord>allTileCoords;
-	Queue<Coord> shuffledTileCoords;
-	Queue<Coord> shuffledOpenTileCoords;
+	List<Coord>allTileCoords; // List of all tile coordinates
+	Queue<Coord> shuffledTileCoords; // Queue type for shuffling coords from the Utility script
+	//Queue<Coord> shuffledOpenTileCoords;
 
-	 public int seedx = 10;
+	 public int seedx = 10; //secondary seed
 
-	public static int Explored;
-	public static int Accurate;
+	public static int endLevelValue;
 
-	public int exploreValue;
+	public static int Explored; //tracking the amount of map explored
+	public static int Accurate; //tracking the amount of enemies hit on target
+	public static int defeated; //amount of enemies defeated
+	public static float timeSaved; //timestamp of time taken
+	public static int totalEnemies; //Total number of enemies that were alive
+
+	public int levelTrack;
+
+	public int exploreValue; 
 	public int accurateValue;
 	public int numberEnemies; 
-	public GameObject[] enemies;
+	public GameObject[] enemies; //Array of enemies to track targets
 
-	public float TimeInSeconds;
+	public float TimeInSeconds; // float for time 
 
-
-	//public bool isWall;
-	//public List<Coord> edgeTiles;
+	public dataScript saveData; //reference to the script for collecting and exporting test data
 
 	void Start() {
 		GenerateMap(); //Method calling the generator
-		spawnPlayer();
+		//spawner();
 		Explored = 0;
 		TimeInSeconds = 0; 
-	
+		isExplorer = false;
+		isKiller = false;
+		isAcheiver = false;
+		levelTrack = 0;
 	}
 
 	void Update() {
-		//if (Input.GetMouseButtonDown(0)) {
-		if (Input.GetKey ("space")) {
+		
+		decideTax();
+
+		/*if (Input.GetKey ("space")) {
 			GenerateMap(); //use mouse click to generate new map with each click
 			meshGenerator.removeWallMesh();
+			clearTargets ();
+			clearSpawner ();
+			//levelTrack = levelTrack + 1;
+
 			//Destroy old mesh and walls and make new mesh 
+		}*/
+
+		if (Input.GetKey ("left")) {
+			saveData.save ();
+		}
+		if (Input.GetKey ("up")) {
+			saveData.save2 ();
+		}
+		if (Input.GetKey ("right")) {
+			saveData.save3 ();
 		}
 
+		if (Input.GetKey ("o")) {
+			overideSpawn ();
+		}
+			
+		levelTrack = endLevelValue;
 
+		/*if (levelTrack == 1) { //Problem : data is saved just as collision of player and end point occurs, needs to be just before the level is regenerated
+			saveData.save ();
+		}
+
+		if (levelTrack == 2) 
+		{
+			saveData.save2 ();
+		}
+
+		if (levelTrack == 3) 
+		{
+			saveData.save3 ();
+			Debug.Log ("Test Concluded, load end scene and finish data collection");
+		}*/
 
 		enemies = GameObject.FindGameObjectsWithTag ("Enemy");
+		playerSpawn = GameObject.FindGameObjectWithTag ("Spawn");
 
 		for (int i = 0; i < enemies.Length; i++)
 		{
 			numberEnemies = i;
+			totalEnemies = numberEnemies;
 		}	
 
 		TimeInSeconds += 1*Time.deltaTime;
 
 		exploreValue = Explored;
 		accurateValue = Accurate;
+		timeSaved = TimeInSeconds;
+		explorer = isExplorer;
+
 
 	}
+
+	/*IEnumerator Dead() {
+		Debug.Log ("dead");
+		renderer.enabled = false;
+		yield return new WaitForSeconds(5);
+		Debug.Log ("respawn");
+		renderer.enabled = true;
+	}*/
+
+	void overideSpawn()
+	{
+		GenerateMap(); //use mouse click to generate new map with each click
+		meshGenerator.removeWallMesh();
+		clearTargets ();
+		clearSpawner ();
+		//clearPlayer ();
+		//StartCoroutine (Dead ());
 		
-	void spawnPlayer ()
+	}
+	public void regenLevel()
+	{
+		GenerateMap(); //use mouse click to generate new map with each click
+		meshGenerator.removeWallMesh();
+		clearTargets ();
+		clearSpawner ();
+		clearValues ();
+		Debug.Log("RESET COMPLETE");
+
+	}
+	void clearSpawner()
+	{
+		Destroy (playerSpawn);
+		//Destroy (endPoint);
+	}
+
+	void clearTargets()
+	{
+		foreach (GameObject x in enemies)
+		{
+			Destroy (x);
+		}
+
+	}
+
+	void clearValues()
+	{
+		Explored = 0;
+		Accurate = 0;
+		defeated = 0;
+		timeSaved = 0;
+		totalEnemies = 0;
+		TimeInSeconds = 0;
+		
+	}
+
+	void decideTax()
+	{
+		if (exploreValue >= 10 && accurateValue < 5) 
+		{
+			isExplorer = true;
+		}
+		else
+		{
+			isExplorer = false;	
+		}
+
+		if (accurateValue > 19) 
+		{
+			isKiller = true;
+		}
+	}
+		
+	void spawner ()
 	{
 		System.Random pseudoRandom = new System.Random(seedx.GetHashCode()); //random number generator
 
@@ -118,20 +248,37 @@ public class MapGen : MonoBehaviour {
 			}
 		}*/
 
-		int spawnPoints = 20;
+	//Targets
+		int spawnPoints = 35;
 		for (int i = 0; i < spawnPoints; i++) {
 			Coord randomCoord = GetRandomCoord ();
 			Vector3 spawnPosition = CoordToPosition (randomCoord.tileX, randomCoord.tileY);
 		Transform spawnPoint = Instantiate (targetPrefab, spawnPosition + Vector3.up, Quaternion.Euler(0,0,90)) as Transform;
 		}
 
-				
-		/*mapCentre = new Coord (width / 2, height / 2);
-		Vector3 centreSpawn = CoordToPosition (mapCentre.tileX, mapCentre.tileY);
-		Transform spawnPlayer = Instantiate (spawnPrefab, centreSpawn + Vector3.up * 0.5f, Quaternion.identity) as Transform;
-		*/
+	//Player Start 	
+
+		if (levelTrack == 0) {
+			mapEdge = new Coord (width - 10, height - 190);
+			Vector3 edgeSpawn = CoordToPosition (mapEdge.tileX, mapEdge.tileY);
+			GameObject spawner = Instantiate (playerSpawn, edgeSpawn + Vector3.up * 0.5f, Quaternion.identity) as GameObject;
 
 
+
+			//End Point
+			mapEdgeExit = new Coord (width - 140, height - 10);
+			Vector3 edgeSpawnExit = CoordToPosition (mapEdgeExit.tileX, mapEdgeExit.tileY);
+			GameObject exitPoint = Instantiate (endPoint, edgeSpawnExit + Vector3.up * 0.5f, Quaternion.Euler (270, 0, 90)) as GameObject;
+
+			//Player
+			/*mapCentre = new Coord (width - 10, height - 190);
+			Vector3 centreSpawn = CoordToPosition (mapEdge.tileX, mapEdge.tileY);
+			Instantiate (player, centreSpawn + Vector3.up * 1.0f, Quaternion.identity);*/
+		}
+
+		if (levelTrack >= 1)
+	{
+		}
 	}
 
 	public Coord GetRandomCoord() {
@@ -146,12 +293,13 @@ public class MapGen : MonoBehaviour {
 
 
 	void GenerateMap() {			//method for generating map
+	
 		map = new int[width,height];
 		
-		/*mapCentre = new Coord (width / 2, height / 2);
-		Vector3 centreSpawn = CoordToPosition (mapCentre.tileX, mapCentre.tileY);
-		Transform spawnPlayer = Instantiate (spawnPrefab, centreSpawn + Vector3.up * 0.5f, Quaternion.identity) as Transform;*/
-		spawnPlayer ();
+		/*mapEdge = new Coord (width / 2, height / 2);
+		Vector3 centreSpawn = CoordToPosition (mapEdge.tileX, mapEdge.tileY);
+		Transform spawner = Instantiate (spawnPrefab, centreSpawn + Vector3.up * 0.5f, Quaternion.identity) as Transform;*/
+		spawner ();
 		RandomFillMap();
 
 		for (int i = 0; i < 5; i ++) { //increments of smooth map

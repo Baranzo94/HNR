@@ -22,6 +22,7 @@ public class GunScript : MonoBehaviour {
 	//private int m_LastFrameShot = -1;
 
 	public int shotsFired;
+	public static int totalShotsFired;
 	//public GameObject spawn;
 	public Transform spawn;
 
@@ -38,6 +39,7 @@ public class GunScript : MonoBehaviour {
 	void Update () 
 	{
 		clip_check();
+		totalShotsFired = shotsFired;
 		text.text = "" + bulletsPerClip;
 		if (clip_empty == false) 
 		{

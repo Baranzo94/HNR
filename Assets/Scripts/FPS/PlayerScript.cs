@@ -85,6 +85,15 @@ public class PlayerScript : MonoBehaviour {
 		//}
 	}
 
+	void OnTriggerEnter(Collider other)
+	{
+		if (other.gameObject.tag == "Wall") 
+		{
+			Debug.Log ("Check");
+		}
+			
+	}
+
 	void Death()
 	{
 	//	isDead = true;

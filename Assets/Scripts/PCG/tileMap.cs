@@ -67,7 +67,7 @@ public class tileMap : MonoBehaviour {
 
 		}
 
-		int obstacleCount = 10;
+		/*int obstacleCount = 10;
 
 		for (int i =0; i < obstacleCount; i ++) {
 
@@ -78,7 +78,7 @@ public class tileMap : MonoBehaviour {
 			Transform newObstacle = Instantiate(navPrefab, obstaclePosition + Vector3.up * .5f, Quaternion.identity) as Transform;
 
 			newObstacle.parent = mapHolder;
-		}
+		}*/
 
 
 

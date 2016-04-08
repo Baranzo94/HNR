@@ -57,6 +57,7 @@
      <Compile Include="Assets\Scripts\PCG\MeshGen.cs" />
      <Compile Include="Assets\Scripts\PCG\SpawnScript.cs" />
      <Compile Include="Assets\Scripts\PCG\Utility.cs" />
+     <Compile Include="Assets\Scripts\PCG\endScript.cs" />
      <Compile Include="Assets\Scripts\PCG\startScript.cs" />
      <Compile Include="Assets\Scripts\PCG\tileMap.cs" />
      <Compile Include="Assets\Scripts\PCG\tileScript.cs" />

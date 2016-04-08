@@ -29,7 +29,7 @@ public class targetScript : MonoBehaviour {
 		//if (other.gameObject.tag == "Bullet") {
 		Destroy (this.gameObject);
 		Destroy (other.gameObject);
-			Debug.Log ("Hit");
+			//Debug.Log ("Hit");
 		Accuracy ();
 
 		//shotsHit = shotsHit + 1;
