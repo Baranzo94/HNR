@@ -11,20 +11,22 @@ public class endScript : MonoBehaviour {
 
 
 	// Use this for initialization
-	void Start () {
+	void Awake () {
+		//MapControl = MapCon;		
 		MapControl = GameObject.FindGameObjectWithTag ("MapControl");
-		//MapControl = MapCon;
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	
+
 	}
 
 	void exploreTiles()
 	{
 
-		MapGen.endLevelValue += endValue;
+		//MapGen.endLevelValue += endValue;
+		MapControl.GetComponent<MapGen>().complete();
 
 	}
 
@@ -36,7 +38,18 @@ public class endScript : MonoBehaviour {
 			Destroy (this.gameObject);
 			MapControl.GetComponent<MapGen>().regenLevel();
 		}
+
+		if (other.gameObject.tag == "Walls") 
+		{
+			//.Log ("Test Exit");			
+
+
+			MapControl.GetComponent<MapGen>().respawnExit();
+			Destroy (this.gameObject);
+			//Test successful, make it respawn until it doesnt have a issue
+		}
 		
 	}
+		
 }
 

@@ -1,1 +1,0 @@
-Explore Data 37,Enemies Defeated 5,Shots Hit 5,Enemies Remaining 29,Shots Fired 18,Time Taken 19.82114,Taxonomy False

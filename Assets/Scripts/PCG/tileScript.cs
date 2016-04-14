@@ -16,8 +16,8 @@ public class tileScript : MonoBehaviour {
 	void Start () {
 		//exploreTiles ();
 
-		/*GameObject mapControllerObject = GameObject.FindGameObjectWithTag ("MapControl");
-		if (mapControllerObject != null)
+		GameObject mapControllerObject = GameObject.FindGameObjectWithTag ("MapControl");
+		/*if (mapControllerObject != null)
 		{
 			mapControl = mapControllerObject.GetComponent <MapGen>();
 		}
@@ -46,7 +46,7 @@ public class tileScript : MonoBehaviour {
 			exploreTiles ();
 			//Collider box = this.gameObject.GetComponent<BoxCollider>();
 			GetComponent<BoxCollider>().enabled = false;
-			//exploreTiles ();
+			exploreTiles ();
 			//Debug.Log ("Check");
 		}
 	}

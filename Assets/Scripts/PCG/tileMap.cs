@@ -13,6 +13,10 @@ public class tileMap : MonoBehaviour {
 
 	public float tileSize;
 
+	public static int totalExplore;
+	public GameObject[] tileNos; 
+	public int numberTiles;
+
 	List<Coord>allTileCoords;
 	Queue<Coord> shuffledTileCoords;
 
@@ -22,7 +26,13 @@ public class tileMap : MonoBehaviour {
 	void Start () {
 		GenerateTileMap ();
 	}
-	
+
+	public void Update()
+	{
+		tileNos = GameObject.FindGameObjectsWithTag ("Tile");
+		getTotalTiles ();
+
+	}
 	public void GenerateTileMap()
 	{
 		allTileCoords = new List<Coord> ();
@@ -82,6 +92,15 @@ public class tileMap : MonoBehaviour {
 
 
 
+	}
+
+	public void getTotalTiles()
+	{
+		for (int i = 0; i < tileNos.Length; i++)
+		{
+			numberTiles = i;
+			totalExplore = numberTiles;
+		}	
 	}
 
 	Vector3 CoordToPosition(int x, int y) {

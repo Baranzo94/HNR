@@ -4,22 +4,19 @@ using System.Collections;
 public class SpawnScript : MonoBehaviour {
 
 	//Enemy placement and numbers 
+	public GameObject MapControl;
 
 
 	// Use this for initialization
-	void Start () {
-	
+	void Awake () {
+		MapControl = GameObject.FindGameObjectWithTag ("MapControl");
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	
-	}
 
-	/*[System.Serializable]
-	public class Round {
-		public int targetCount;
-	}*/
+	}
 
 	/*void OnCollisionEnter(Collision collision)
 	{
@@ -34,7 +31,9 @@ public class SpawnScript : MonoBehaviour {
 	{
 		if (other.gameObject.tag == "Walls") 
 		{
-			Debug.Log ("Check");
+			//Debug.Log ("Check");
+			MapControl.GetComponent<MapGen> ().respawnSpawn ();
+			Destroy (this.gameObject);
 			//Test successful, make it respawn until it doesnt have a issue
 		}
 	}

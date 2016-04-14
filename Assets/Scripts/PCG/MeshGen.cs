@@ -6,6 +6,7 @@ public class MeshGen : MonoBehaviour {
 
 	public SquareGrid squareGrid;
 	public MeshFilter walls;
+	public MeshFilter topMesh;
 	public MeshFilter level;
 
 	List<Vector3> vertices; //list of vector3 vertices
@@ -80,12 +81,20 @@ public class MeshGen : MonoBehaviour {
 		//FIXED
 		MeshCollider wallCollider = walls.gameObject.AddComponent<MeshCollider> ();
 		wallCollider.sharedMesh = wallMesh;
+
+		MeshCollider topCollider = topMesh.gameObject.AddComponent<MeshCollider> ();
+		topCollider.sharedMesh = level.mesh;
 	}
 
 	public void removeWallMesh()
 	{
 		MeshCollider wallCollider = walls.gameObject.GetComponent<MeshCollider> ();
 		Destroy (wallCollider);
+
+		MeshCollider topCollider = topMesh.gameObject.GetComponent<MeshCollider> ();
+		Destroy (topCollider);
+
+
 		//Debug.Log ("Wall Mesh removed");
 	}
 

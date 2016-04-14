@@ -36,4 +36,3 @@ public class targetScript : MonoBehaviour {
 		//}
 	}
 }
-// Instantiate (projectile, spawn.position, spawn.rotation);
